@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crimes Virtuais - Informação e Prevenção</title>
+    <!-- Incluindo Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1D4ED8', // Azul forte
+                        secondary: '#93C5FD', // Azul claro
+                        background: '#F9FAFB', // Cinza claro
+                        text: '#1F2937', // Cinza escuro
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+        /* Estilos adicionais para uma melhor visualização */
+        .page-content {
+            min-height: calc(100vh - 128px); /* 64px para o header e 64px para o footer */
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .quiz-option:checked + label {
+            background-color: #93C5FD;
+            border-color: #1D4ED8;
+            color: #1D4ED8;
+        }
+        .quiz-option {
+            display: none;
+        }
+        .quiz-option + label {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: block;
+        }
+        .quiz-option + label:hover {
+            background-color: #EBF8FF;
+        }
+    </style>
+</head>
+<body class="bg-background text-text">
+
+    <!-- Navegação (Header) -->
+    <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between">
+            <div class="flex items-center space-x-2 mb-4 sm:mb-0">
+                <width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-half"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 22V2"/></svg>
+                <a href="#" class="text-2xl font-bold tracking-tight" onclick="loadPage('home'); return false;">HackMind QUIZZES</a>
+            </div>
+            <ul class="flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 font-medium text-sm sm:text-base">
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('home'); return false;">Início</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('SaibaMais'); return false;">Saiba mais</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('tiposDeCrimes'); return false;">Tipos de Crimes</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('comoSeProteger'); return false;">Como se Proteger</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('Resultados'); return false;">Seus Resultados</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="page-container" class="page-content bg-white shadow-xl rounded-lg mt-8 p-8 md:p-12">
+            <!-- Conteúdo da página será inserido aqui pelo JavaScript -->
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2025 HackMind. Todos os direitos reservados.</p>
+            <p class="mt-2">QUIZZES CRIMES VIRTUAIS.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript para gerenciar o conteúdo das páginas e o quiz -->
+    <script>
+        // Objeto que armazena o conteúdo de cada página
+        const pages = {
+           home: `
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Bem-vindo ao HackMind</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Aqui você decobrirá o quanto você sabe sobre Crimes Virtuais !!</p>
+            <div class="mt-12 flex justify-center">
+                <button onclick="loadPage('quiz-start')" class="bg-secondary text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:bg-white">
+                    Vamos para o QUIZZ?
+                </button>
+            </div>
+        `,
+           SaibaMais: `
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">O que são Crimes Virtuais?</h1>
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Crimes virtuais, ou cibercrimes, são qualquer atividade criminosa que envolva um computador, rede de computadores ou um dispositivo conectado à internet.</p>
+                    <section class="mt-8">
+                        <h2 class="text-2xl font-bold text-text mb-4">Definição e Abrangência</h2>
+                        <p class="text-gray-700 leading-relaxed">A categoria de crimes virtuais é vasta e inclui desde pequenos roubos de identidade até ataques massivos a infraestruturas de governos e empresas. Eles podem ser realizados por indivíduos, grupos organizados ou até mesmo nações, com diferentes motivações, como ganho financeiro, espionagem, vandalismo ou vingança.</p>
+                        <ul class="list-disc list-inside mt-4 text-gray-700 leading-relaxed space-y-2">
+                            <li><span class="font-bold">Ataques a dados:</span> roubo de informações pessoais ou financeiras.</li>
+                            <li><span class="font-bold">Ataques a sistemas:</span> desativação de sites ou serviços.</li>
+                            <li><span class="font-bold">Crimes de conteúdo:</span> distribuição de material ilegal.</li>
+                        </ul>
+                    </section>
+                </div>
+            `,
+            tiposDeCrimes: `
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">Principais Tipos de Crimes Virtuais</h1>
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Conhecer os tipos mais comuns de crimes virtuais é o primeiro passo para se proteger.</p>
+                    <div class="grid md:grid-cols-2 gap-8 mt-8">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Phishing</h3>
+                            <p class="text-gray-700">Técnica de fraude para roubar informações pessoais, como senhas e dados de cartão de crédito, através de e-mails, mensagens ou sites falsos que se passam por instituições confiáveis.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Malware</h3>
+                            <p class="text-gray-700">Software malicioso que se instala em seu dispositivo sem seu consentimento para danificar, roubar dados ou controlar seu sistema. Inclui vírus, cavalos de Tróia e spyware.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Ransomware</h3>
+                            <p class="text-gray-700">Tipo de malware que "sequestra" seus arquivos, criptografando-os. O criminoso exige um resgate (geralmente em criptomoedas) para liberar seus dados.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Roubo de Identidade</h3>
+                            <p class="text-gray-700">Ocorre quando um criminoso obtém e usa suas informações pessoais (como nome, CPF, dados bancários) para cometer fraudes em seu nome.</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            comoSeProteger: `
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">Como se Proteger de Crimes Virtuais</h1>
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">A melhor defesa é a prevenção. Siga estas dicas para manter-se seguro online.</p>
+                    <ul class="list-none space-y-6 mt-8">
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 mr-4 text-primary text-2xl font-bold">1.</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-text mb-1">Use Senhas Fortes e Únicas</h3>
+                                <p class="text-gray-700">Nunca use a mesma senha para múltiplas contas. Crie senhas longas e complexas, combinando letras maiúsculas, minúsculas, números e símbolos.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 mr-4 text-primary text-2xl font-bold">2.</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-text mb-1">Ative a Autenticação de Dois Fatores (2FA)</h3>
+                                <p class="text-gray-700">Adicione uma camada extra de segurança às suas contas. Mesmo que sua senha seja roubada, o criminoso precisará de um segundo código para acessar.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 mr-4 text-primary text-2xl font-bold">3.</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-text mb-1">Cuidado com E-mails e Mensagens Suspeitas</h3>
+                                <p class="text-gray-700">Desconfie de links ou anexos em e-mails inesperados. Verifique sempre o remetente e o endereço do link antes de clicar.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 mr-4 text-primary text-2xl font-bold">4.</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-text mb-1">Mantenha seu Software Atualizado</h3>
+                                <p class="text-gray-700">Atualizações de sistema operacional e aplicativos frequentemente incluem correções de segurança que protegem contra novas ameaças.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            `,
+           
+           
+            recursos: `
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">Recursos e Ajuda</h1>
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Em caso de dúvidas ou se você foi vítima de um crime virtual, procure ajuda nos seguintes recursos.</p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Polícia Federal</h3>
+                            <p class="text-gray-700 mb-4">O órgão federal responsável por investigar crimes cibernéticos de alta complexidade.</p>
+                            <a href="https://www.gov.br/pf/pt-br" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">CERT.br</h3>
+                            <p class="text-gray-700 mb-4">Centro de Estudos, Respostas e Tratamento de Incidentes de Segurança no Brasil.</p>
+                            <a href="https://www.cert.br/" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Cartilha de Segurança para Internet</h3>
+                            <p class="text-gray-700 mb-4">Guia completo para segurança online, produzido pelo CERT.br.</p>
+                            <a href="https://cartilha.cert.br/" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                        </div>
+                    </div>
+                </div>
+            `,
+            'quiz-start': `
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Quiz sobre Crimes Virtuais</h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">Teste seus conhecimentos sobre segurança digital e crimes virtuais. São 6 perguntas de múltipla escolha.</p>
+                    <button onclick="startQuiz()" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                        Iniciar Quiz
+                    </button>
+                </div>
+            `
+        };
+
+        // Dados do quiz
+        const quizQuestions = [
+            {
+                question: "O que é Phishing?",
+                options: [
+                    "Um tipo de vírus de computador.",
+                    "Uma técnica para roubar informações pessoais por meio de e-mails ou mensagens falsas.",
+                    "Um jogo online sobre pesca.",
+                    "Um sistema de segurança para redes Wi-Fi."
+                ],
+                correctAnswerIndex: 1
+            },
+            {
+                question: "Qual é a melhor prática para criar uma senha forte?",
+                options: [
+                    "Usar o nome de um familiar ou pet.",
+                    "Usar uma palavra comum e fácil de lembrar.",
+                    "Combinar letras maiúsculas e minúsculas, números e símbolos, com pelo menos 12 caracteres.",
+                    "Usar a mesma senha para todas as suas contas."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                question: "O que o termo 'Malware' abrange?",
+                options: [
+                    "Apenas vírus de computador.",
+                    "Qualquer tipo de software malicioso, como vírus, spyware e ransomware.",
+                    "Programas de antivírus.",
+                    "Hardware defeituoso."
+                ],
+                correctAnswerIndex: 1
+            },
+            {
+                question: "O que um ataque de Ransomware faz?",
+                options: [
+                    "Rouba suas informações pessoais e as vende na internet.",
+                    "Inunda seu e-mail com propagandas indesejadas.",
+                    "Bloqueia o acesso aos seus arquivos e exige um pagamento para liberá-los.",
+                    "Apaga permanentemente todos os arquivos do seu computador."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                question: "Qual o objetivo da Autenticação de Dois Fatores (2FA)?",
+                options: [
+                    "Deixar o acesso à conta mais lento.",
+                    "Substituir o uso de senhas.",
+                    "Adicionar uma camada extra de segurança, exigindo um segundo método de verificação.",
+                    "Garantir que a conta seja acessada apenas de um dispositivo."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                question: "Você recebe um e-mail suspeito que parece ser do seu banco, pedindo para clicar em um link e atualizar seus dados. O que você deve fazer?",
+                options: [
+                    "Clicar no link imediatamente para evitar que sua conta seja bloqueada.",
+                    "Responder ao e-mail pedindo mais informações.",
+                    "Ignorar a mensagem e ligar para o banco ou acessar o site oficial diretamente.",
+                    "Encaminhar o e-mail para todos os seus amigos para alertá-los."
+                ],
+                correctAnswerIndex: 2
+            }
+        ];
+
+        let quizScore = 0;
+
+        // Função para carregar o conteúdo da página
+        function loadPage(pageName) {
+            const pageContainer = document.getElementById('page-container');
+            if (pages[pageName]) {
+                pageContainer.innerHTML = pages[pageName];
+            } else {
+                pageContainer.innerHTML = `<h1 class="text-3xl font-bold text-red-500">Página não encontrada!</h1>`;
+            }
+            // Rola para o topo da página após carregar o conteúdo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Função para iniciar o quiz
+        function startQuiz() {
+            quizScore = 0;
+            renderQuizPage(0);
+        }
+
+        // Função para renderizar uma página de pergunta do quiz
+        function renderQuizPage(questionIndex) {
+            if (questionIndex >= quizQuestions.length) {
+                showQuizResult();
+                return;
+            }
+
+            const questionData = quizQuestions[questionIndex];
+            const pageContainer = document.getElementById('page-container');
+            const optionsHtml = questionData.options.map((option, index) => `
+                <div class="mb-4">
+                    <input type="radio" id="option-${index}" name="quiz-option" value="${index}" class="quiz-option">
+                    <label for="option-${index}" class="block w-full p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200 hover:bg-gray-100 transition-colors">
+                        ${option}
+                    </label>
+                </div>
+            `).join('');
+
+            pageContainer.innerHTML = `
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Pergunta ${questionIndex + 1} de ${quizQuestions.length}</h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">${questionData.question}</p>
+                    <form id="quiz-form" class="space-y-4">
+                        ${optionsHtml}
+                    </form>
+                    <div class="flex justify-end mt-8">
+                        <button onclick="checkAnswerAndProceed(${questionIndex})" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                            Próxima Pergunta
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para verificar a resposta e prosseguir para a próxima pergunta
+        function checkAnswerAndProceed(questionIndex) {
+            const form = document.getElementById('quiz-form');
+            const selectedOption = form.querySelector('input[name="quiz-option"]:checked');
+
+            if (selectedOption) {
+                const selectedAnswerIndex = parseInt(selectedOption.value);
+                const questionData = quizQuestions[questionIndex];
+                if (selectedAnswerIndex === questionData.correctAnswerIndex) {
+                    quizScore++;
+                }
+                renderQuizPage(questionIndex + 1);
+            } else {
+                // Alerta suave para o usuário selecionar uma opção
+                alert('Por favor, selecione uma resposta antes de continuar.');
+            }
+        }
+
+        // Função para mostrar o resultado final do quiz
+        function showQuizResult() {
+            const pageContainer = document.getElementById('page-container');
+            const resultText = quizScore === quizQuestions.length ?
+                'Parabéns, você é um especialista em segurança digital!' :
+                'Ótimo! Continue explorando nosso site para se aprofundar no assunto.';
+
+            pageContainer.innerHTML = `
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Quiz Concluído!</h1>
+                    <p class="text-xl md:text-2xl font-bold text-text mb-4">Sua pontuação foi: ${quizScore} de ${quizQuestions.length}</p>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">${resultText}</p>
+                    <button onclick="loadPage('home')" class="mt-8 bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                        Voltar para o Início
+                    </button>
+                    <button onclick="startQuiz()" class="mt-8 ml-4 bg-gray-200 hover:bg-gray-300 text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                        Fazer o Quiz Novamente
+                    </button>
+                </div>
+            `;
+        }
+
+        // Carrega a página inicial ao carregar o site
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPage('home');
+        });
+    </script>
+</body>
+</html>
