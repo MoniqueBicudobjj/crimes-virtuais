@@ -58,15 +58,16 @@
     <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between">
             <div class="flex items-center space-x-2 mb-4 sm:mb-0">
-                <width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-half"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 22V2"/></svg>
-                <a href="#" class="text-2xl font-bold tracking-tight" onclick="loadPage('home'); return false;">HackMind QUIZZES</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-half"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 22V2"/></svg>
+                <a href="#" class="text-2xl font-bold tracking-tight" onclick="loadPage('home'); return false;">HackMind</a>
             </div>
             <ul class="flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 font-medium text-sm sm:text-base">
                 <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('home'); return false;">Início</a></li>
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('SaibaMais'); return false;">Saiba mais</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('oQueSao'); return false;">O que são?</a></li>
                 <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('tiposDeCrimes'); return false;">Tipos de Crimes</a></li>
                 <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('comoSeProteger'); return false;">Como se Proteger</a></li>
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('Resultados'); return false;">Seus Resultados</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('senhasSeguras'); return false;">Senhas Seguras</a></li>
+                <li><a href="#" class="bg-secondary text-primary px-3 py-1 rounded-full hover:bg-white transition-colors" onclick="loadPage('quiz-start'); return false;">Quiz</a></li>
             </ul>
         </nav>
     </header>
@@ -82,28 +83,174 @@
     <footer class="bg-gray-800 text-gray-300 py-6 mt-8">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
             <p>&copy; 2025 HackMind. Todos os direitos reservados.</p>
-            <p class="mt-2">QUIZZES CRIMES VIRTUAIS.</p>
+            <p class="mt-2">Conteúdo informativo sobre prevenção e segurança digital.</p>
         </div>
     </footer>
 
     <!-- JavaScript para gerenciar o conteúdo das páginas e o quiz -->
     <script>
+        // Dados do quiz (movidos para antes do objeto 'pages')
+        const quizQuestions = [
+            // Nível Básico
+            {
+                level: "Básico",
+                question: "O que é Phishing?",
+                options: [
+                    "Um tipo de vírus de computador.",
+                    "Uma técnica para roubar informações pessoais por meio de e-mails ou mensagens falsas.",
+                    "Um jogo online sobre pesca.",
+                    "Um sistema de segurança para redes Wi-Fi."
+                ],
+                correctAnswerIndex: 1
+            },
+            {
+                level: "Básico",
+                question: "Qual é a melhor prática para criar uma senha forte?",
+                options: [
+                    "Usar o nome de um familiar ou pet.",
+                    "Usar uma palavra comum e fácil de lembrar.",
+                    "Combinar letras maiúsculas e minúsculas, números e símbolos, com pelo menos 12 caracteres.",
+                    "Usar a mesma senha para todas as suas contas."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                level: "Básico",
+                question: "O que o termo 'Malware' abrange?",
+                options: [
+                    "Apenas vírus de computador.",
+                    "Qualquer tipo de software malicioso, como vírus, spyware e ransomware.",
+                    "Programas de antivírus.",
+                    "Hardware defeituoso."
+                ],
+                correctAnswerIndex: 1
+            },
+            {
+                level: "Básico",
+                question: "O que é um firewall e qual sua função principal?",
+                options: [
+                    "Um programa para acelerar a internet.",
+                    "Um dispositivo que impede o acesso não autorizado a uma rede ou computador.",
+                    "Um tipo de software para edição de imagens.",
+                    "Um serviço de armazenamento em nuvem."
+                ],
+                correctAnswerIndex: 1
+            },
+            // Nível Intermediário
+            {
+                level: "Intermediário",
+                question: "O que um ataque de Ransomware faz?",
+                options: [
+                    "Rouba suas informações pessoais e as vende na internet.",
+                    "Inunda seu e-mail com propagandas indesejadas.",
+                    "Bloqueia o acesso aos seus arquivos e exige um pagamento para liberá-los.",
+                    "Apaga permanentemente todos os arquivos do seu computador."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                level: "Intermediário",
+                question: "Qual o objetivo da Autenticação de Dois Fatores (2FA)?",
+                options: [
+                    "Deixar o acesso à conta mais lento.",
+                    "Substituir o uso de senhas.",
+                    "Adicionar uma camada extra de segurança, exigindo um segundo método de verificação.",
+                    "Garantir que a conta seja acessada apenas de um dispositivo."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                level: "Intermediário",
+                question: "Você recebe um e-mail suspeito que parece ser do seu banco, pedindo para clicar em um link e atualizar seus dados. O que você deve fazer?",
+                options: [
+                    "Clicar no link imediatamente para evitar que sua conta seja bloqueada.",
+                    "Responder ao e-mail pedindo mais informações.",
+                    "Ignorar a mensagem e ligar para o banco ou acessar o site oficial diretamente.",
+                    "Encaminhar o e-mail para todos os seus amigos para alertá-los."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                level: "Intermediário",
+                question: "O que significa 'engenharia social' no contexto de crimes virtuais?",
+                options: [
+                    "O uso de softwares complexos para invadir sistemas.",
+                    "A criação de redes sociais seguras.",
+                    "A manipulação psicológica de pessoas para obter informações confidenciais.",
+                    "O estudo do comportamento humano online."
+                ],
+                correctAnswerIndex: 2
+            },
+            // Nível Avançado
+            {
+                level: "Avançado",
+                question: "Qual é a principal diferença entre um vírus e um cavalo de Tróia?",
+                options: [
+                    "Vírus se espalha sozinho, Cavalo de Tróia precisa de interação do usuário.",
+                    "Cavalo de Tróia se espalha sozinho, Vírus precisa de interação do usuário.",
+                    "Vírus ataca apenas arquivos, Cavalo de Tróla ataca a rede.",
+                    "Não há diferença, são termos sinônimos."
+                ],
+                correctAnswerIndex: 0
+            },
+            {
+                level: "Avançado",
+                question: "O que é uma VPN e por que ela é útil para a segurança online?",
+                options: [
+                    "Um tipo de antivírus avançado.",
+                    "Uma rede social exclusiva para profissionais de TI.",
+                    "Uma rede privada virtual que criptografa sua conexão e oculta seu endereço IP.",
+                    "Um software para otimização de desempenho do computador."
+                ],
+                correctAnswerIndex: 2
+            },
+            {
+                level: "Avançado",
+                question: "O que é um ataque de Força Bruta (Brute Force)?",
+                options: [
+                    "Um ataque que usa força física para danificar servidores.",
+                    "Uma tentativa de adivinhar senhas ou chaves de criptografia testando todas as combinações possíveis.",
+                    "Um ataque que sobrecarrega um servidor com tráfego.",
+                    "Um método para roubar dados de um banco de dados."
+                ],
+                correctAnswerIndex: 1
+            },
+            {
+                level: "Avançado",
+                question: "O que é um certificado SSL/TLS e qual sua importância para a segurança de sites?",
+                options: [
+                    "Um documento que comprova a autoria de um site.",
+                    "Um protocolo que garante a velocidade de carregamento da página.",
+                    "Um protocolo de criptografia que protege a comunicação entre o navegador e o servidor, indicado pelo 'HTTPS'.",
+                    "Uma ferramenta para otimização de imagens em sites."
+                ],
+                correctAnswerIndex: 2
+            }
+        ];
+
+        // Variável global para armazenar as perguntas do nível selecionado
+        let currentQuizQuestions = []; 
+        let quizScore = 0; 
+
         // Objeto que armazena o conteúdo de cada página
         const pages = {
-           home: `
-        <div class="text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Bem-vindo ao HackMind</h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Aqui você decobrirá o quanto você sabe sobre Crimes Virtuais !!</p>
-            <div class="mt-12 flex justify-center">
-                <button onclick="loadPage('quiz-start')" class="bg-secondary text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:bg-white">
-                    Vamos para o QUIZZ?
-                </button>
-            </div>
-        `,
-           SaibaMais: `
+            home: `
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Bem-vindo ao HackMind</h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Sua fonte de informação e prevenção contra crimes virtuais. Aprenda a se proteger e navegar na internet com segurança.</p>
+                    <section class="mt-12 text-left">
+                    
+                            <section class="mt-12 text-left">
+                      <h2 class="text-2xl md:text-3xl font-bold text-text mb-4 text-center">A Importância da Segurança Digital</h2>
+                      <p class="text-gray-700 leading-relaxed text-center"> Segurança Digital é como um escudo que protege suas informações na internet. É importante porque todos nós queremos manter nossos dados pessoais, fotos, dados bancários e e-mails em segredo, longe dos olhos dos curiosos, certo? Existem algumas ameaças na internet, que são como vilões, tentando roubar suas informações.</p>
+                    </section>
+                </div>
+            `,
+            oQueSao: `
                 <div>
                     <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">O que são Crimes Virtuais?</h1>
                     <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Crimes virtuais, ou cibercrimes, são qualquer atividade criminosa que envolva um computador, rede de computadores ou um dispositivo conectado à internet.</p>
+
                     <section class="mt-8">
                         <h2 class="text-2xl font-bold text-text mb-4">Definição e Abrangência</h2>
                         <p class="text-gray-700 leading-relaxed">A categoria de crimes virtuais é vasta e inclui desde pequenos roubos de identidade até ataques massivos a infraestruturas de governos e empresas. Eles podem ser realizados por indivíduos, grupos organizados ou até mesmo nações, com diferentes motivações, como ganho financeiro, espionagem, vandalismo ou vingança.</p>
@@ -175,107 +322,56 @@
                     </ul>
                 </div>
             `,
-           
-           
-            recursos: `
+            senhasSeguras: `
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">Recursos e Ajuda</h1>
-                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Em caso de dúvidas ou se você foi vítima de um crime virtual, procure ajuda nos seguintes recursos.</p>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">Criando Senhas Seguras</h1>
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Uma senha fraca é um convite para criminosos. Aprenda a criar e gerenciar senhas que realmente protegem seus dados.</p>
+                    <div class="grid md:grid-cols-2 gap-8 mt-8">
                         <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-bold text-text mb-2">Polícia Federal</h3>
-                            <p class="text-gray-700 mb-4">O órgão federal responsável por investigar crimes cibernéticos de alta complexidade.</p>
-                            <a href="https://www.gov.br/pf/pt-br" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                            <h3 class="text-xl font-bold text-text mb-2">O que faz uma senha ser forte?</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>No mínimo 12 caracteres de comprimento.</li>
+                                <li>Combinação de letras maiúsculas e minúsculas.</li>
+                                <li>Inclusão de números e símbolos especiais.</li>
+                                <li>Não deve conter informações pessoais óbvias (nomes, datas de nascimento).</li>
+                                <li>Não deve ser uma palavra ou frase comum.</li>
+                            </ul>
                         </div>
                         <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-bold text-text mb-2">CERT.br</h3>
-                            <p class="text-gray-700 mb-4">Centro de Estudos, Respostas e Tratamento de Incidentes de Segurança no Brasil.</p>
-                            <a href="https://www.cert.br/" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
-                        </div>
-                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-bold text-text mb-2">Cartilha de Segurança para Internet</h3>
-                            <p class="text-gray-700 mb-4">Guia completo para segurança online, produzido pelo CERT.br.</p>
-                            <a href="https://cartilha.cert.br/" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                            <h3 class="text-xl font-bold text-text mb-2">Dicas de Gerenciamento de Senhas</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>Use um <span class="font-bold">gerenciador de senhas</span> confiável para armazenar suas credenciais com segurança.</li>
+                                <li>Ative a <span class="font-bold">autenticação de dois fatores</span> (2FA) em todas as contas que la oferecem.</li>
+                                <li>Mude suas senhas imediatamente se você suspeitar que elas foram comprometidas.</li>
+                                <li>Nunca compartilhe suas senhas com ninguém.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             `,
+    
             'quiz-start': `
                 <div class="text-center">
                     <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Quiz sobre Crimes Virtuais</h1>
-                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">Teste seus conhecimentos sobre segurança digital e crimes virtuais. São 6 perguntas de múltipla escolha.</p>
-                    <button onclick="startQuiz()" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
-                        Iniciar Quiz
-                    </button>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">Teste seus conhecimentos sobre segurança digital e crimes virtuais. Escolha um nível para começar:</p>
+                    <div class="flex flex-col space-y-4 max-w-sm mx-auto">
+                        <button onclick="selectQuizLevel('Básico')" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                            Quiz Básico
+                        </button>
+                        <button onclick="selectQuizLevel('Intermediário')" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                            Quiz Intermediário
+                        </button>
+                        <button onclick="selectQuizLevel('Avançado')" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                            Quiz Avançado
+                        </button>
+                    </div>
                 </div>
             `
         };
 
-        // Dados do quiz
-        const quizQuestions = [
-            {
-                question: "O que é Phishing?",
-                options: [
-                    "Um tipo de vírus de computador.",
-                    "Uma técnica para roubar informações pessoais por meio de e-mails ou mensagens falsas.",
-                    "Um jogo online sobre pesca.",
-                    "Um sistema de segurança para redes Wi-Fi."
-                ],
-                correctAnswerIndex: 1
-            },
-            {
-                question: "Qual é a melhor prática para criar uma senha forte?",
-                options: [
-                    "Usar o nome de um familiar ou pet.",
-                    "Usar uma palavra comum e fácil de lembrar.",
-                    "Combinar letras maiúsculas e minúsculas, números e símbolos, com pelo menos 12 caracteres.",
-                    "Usar a mesma senha para todas as suas contas."
-                ],
-                correctAnswerIndex: 2
-            },
-            {
-                question: "O que o termo 'Malware' abrange?",
-                options: [
-                    "Apenas vírus de computador.",
-                    "Qualquer tipo de software malicioso, como vírus, spyware e ransomware.",
-                    "Programas de antivírus.",
-                    "Hardware defeituoso."
-                ],
-                correctAnswerIndex: 1
-            },
-            {
-                question: "O que um ataque de Ransomware faz?",
-                options: [
-                    "Rouba suas informações pessoais e as vende na internet.",
-                    "Inunda seu e-mail com propagandas indesejadas.",
-                    "Bloqueia o acesso aos seus arquivos e exige um pagamento para liberá-los.",
-                    "Apaga permanentemente todos os arquivos do seu computador."
-                ],
-                correctAnswerIndex: 2
-            },
-            {
-                question: "Qual o objetivo da Autenticação de Dois Fatores (2FA)?",
-                options: [
-                    "Deixar o acesso à conta mais lento.",
-                    "Substituir o uso de senhas.",
-                    "Adicionar uma camada extra de segurança, exigindo um segundo método de verificação.",
-                    "Garantir que a conta seja acessada apenas de um dispositivo."
-                ],
-                correctAnswerIndex: 2
-            },
-            {
-                question: "Você recebe um e-mail suspeito que parece ser do seu banco, pedindo para clicar em um link e atualizar seus dados. O que você deve fazer?",
-                options: [
-                    "Clicar no link imediatamente para evitar que sua conta seja bloqueada.",
-                    "Responder ao e-mail pedindo mais informações.",
-                    "Ignorar a mensagem e ligar para o banco ou acessar o site oficial diretamente.",
-                    "Encaminhar o e-mail para todos os seus amigos para alertá-los."
-                ],
-                correctAnswerIndex: 2
-            }
-        ];
-
-        let quizScore = 0;
+        // Variável global para armazenar as perguntas do nível selecionado
+        //let currentQuizQuestions = []; 
+        //let quizScore = 0; 
 
         // Função para carregar o conteúdo da página
         function loadPage(pageName) {
@@ -289,20 +385,21 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Função para iniciar o quiz
-        function startQuiz() {
-            quizScore = 0;
+        // Função para selecionar o nível do quiz e iniciar
+        function selectQuizLevel(level) {
+            currentQuizQuestions = quizQuestions.filter(q => q.level === level);
+            quizScore = 0; // Reinicia a pontuação para o novo quiz
             renderQuizPage(0);
         }
 
         // Função para renderizar uma página de pergunta do quiz
         function renderQuizPage(questionIndex) {
-            if (questionIndex >= quizQuestions.length) {
+            if (questionIndex >= currentQuizQuestions.length) {
                 showQuizResult();
                 return;
             }
 
-            const questionData = quizQuestions[questionIndex];
+            const questionData = currentQuizQuestions[questionIndex];
             const pageContainer = document.getElementById('page-container');
             const optionsHtml = questionData.options.map((option, index) => `
                 <div class="mb-4">
@@ -315,7 +412,8 @@
 
             pageContainer.innerHTML = `
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Pergunta ${questionIndex + 1} de ${quizQuestions.length}</h1>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Pergunta ${questionIndex + 1} de ${currentQuizQuestions.length}</h1>
+                    <p class="text-lg font-semibold text-gray-700 mb-4">Nível: ${questionData.level}</p>
                     <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">${questionData.question}</p>
                     <form id="quiz-form" class="space-y-4">
                         ${optionsHtml}
@@ -336,7 +434,7 @@
 
             if (selectedOption) {
                 const selectedAnswerIndex = parseInt(selectedOption.value);
-                const questionData = quizQuestions[questionIndex];
+                const questionData = currentQuizQuestions[questionIndex];
                 if (selectedAnswerIndex === questionData.correctAnswerIndex) {
                     quizScore++;
                 }
@@ -350,19 +448,19 @@
         // Função para mostrar o resultado final do quiz
         function showQuizResult() {
             const pageContainer = document.getElementById('page-container');
-            const resultText = quizScore === quizQuestions.length ?
+            const resultText = quizScore === currentQuizQuestions.length ?
                 'Parabéns, você é um especialista em segurança digital!' :
                 'Ótimo! Continue explorando nosso site para se aprofundar no assunto.';
 
             pageContainer.innerHTML = `
                 <div class="text-center">
                     <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Quiz Concluído!</h1>
-                    <p class="text-xl md:text-2xl font-bold text-text mb-4">Sua pontuação foi: ${quizScore} de ${quizQuestions.length}</p>
+                    <p class="text-xl md:text-2xl font-bold text-text mb-4">Sua pontuação foi: ${quizScore} de ${currentQuizQuestions.length}</p>
                     <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">${resultText}</p>
                     <button onclick="loadPage('home')" class="mt-8 bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
                         Voltar para o Início
                     </button>
-                    <button onclick="startQuiz()" class="mt-8 ml-4 bg-gray-200 hover:bg-gray-300 text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                    <button onclick="loadPage('quiz-start')" class="mt-8 ml-4 bg-gray-200 hover:bg-gray-300 text-primary font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
                         Fazer o Quiz Novamente
                     </button>
                 </div>
