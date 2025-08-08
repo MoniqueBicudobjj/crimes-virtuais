@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,46 +29,81 @@
             font-family: 'Inter', sans-serif;
             background-color: #F9FAFB;
         }
+
         /* Estilos adicionais para uma melhor visualização */
         .page-content {
-            min-height: calc(100vh - 128px); /* 64px para o header e 64px para o footer */
+            min-height: calc(100vh - 128px);
+            /* 64px para o header e 64px para o footer */
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-        .quiz-option:checked + label {
+
+        .quiz-option:checked+label {
             background-color: #93C5FD;
             border-color: #1D4ED8;
             color: #1D4ED8;
         }
+
         .quiz-option {
             display: none;
         }
-        .quiz-option + label {
+
+        .quiz-option+label {
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             display: block;
         }
-        .quiz-option + label:hover {
+
+        .quiz-option+label:hover {
             background-color: #EBF8FF;
+        }
+
+        /* Estilos para feedback de resposta */
+        .bg-correct {
+            background-color: #D1FAE5;
+            /* green-100 */
+            border-color: #34D399;
+            /* green-500 */
+        }
+
+        .bg-incorrect {
+            background-color: #FEE2E2;
+            /* red-100 */
+            border-color: #EF4444;
+            /* red-500 */
         }
     </style>
 </head>
+
 <body class="bg-background text-text">
 
     <!-- Navegação (Header) -->
     <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between">
             <div class="flex items-center space-x-2 mb-4 sm:mb-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-half"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 22V2"/></svg>
-                <a href="#" class="text-2xl font-bold tracking-tight" onclick="loadPage('home'); return false;">HackMind</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-shield-half">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="M12 22V2" />
+                </svg>
+                <a href="#" class="text-2xl font-bold tracking-tight"
+                    onclick="loadPage('home'); return false;">HackMind</a>
             </div>
             <ul class="flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 font-medium text-sm sm:text-base">
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('home'); return false;">Início</a></li>
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('oQueSao'); return false;">O que são?</a></li>
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('tiposDeCrimes'); return false;">Tipos de Crimes</a></li>
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('comoSeProteger'); return false;">Como se Proteger</a></li>
-                <li><a href="#" class="hover:text-secondary transition-colors" onclick="loadPage('senhasSeguras'); return false;">Senhas Seguras</a></li>
-                <li><a href="#" class="bg-secondary text-primary px-3 py-1 rounded-full hover:bg-white transition-colors" onclick="loadPage('quiz-start'); return false;">Quiz</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors"
+                        onclick="loadPage('home'); return false;">Início</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors"
+                        onclick="loadPage('oQueSao'); return false;">O que são?</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors"
+                        onclick="loadPage('tiposDeCrimes'); return false;">Tipos de Crimes</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors"
+                        onclick="loadPage('comoSeProteger'); return false;">Como se Proteger</a></li>
+                <li><a href="#" class="hover:text-secondary transition-colors"
+                        onclick="loadPage('senhasSeguras'); return false;">Senhas Seguras</a></li>
+                <li><a href="#"
+                        class="bg-secondary text-primary px-3 py-1 rounded-full hover:bg-white transition-colors"
+                        onclick="loadPage('quiz-start'); return false;">Quiz</a></li>
             </ul>
         </nav>
     </header>
@@ -89,9 +125,7 @@
 
     <!-- JavaScript para gerenciar o conteúdo das páginas e o quiz -->
     <script>
-        // Dados do quiz (movidos para antes do objeto 'pages')
         const quizQuestions = [
-            // Nível Básico
             {
                 level: "Básico",
                 question: "O que é Phishing?",
@@ -136,7 +170,6 @@
                 ],
                 correctAnswerIndex: 1
             },
-            // Nível Intermediário
             {
                 level: "Intermediário",
                 question: "O que um ataque de Ransomware faz?",
@@ -181,7 +214,6 @@
                 ],
                 correctAnswerIndex: 2
             },
-            // Nível Avançado
             {
                 level: "Avançado",
                 question: "Qual é a principal diferença entre um vírus e um cavalo de Tróia?",
@@ -228,21 +260,17 @@
             }
         ];
 
-        // Variável global para armazenar as perguntas do nível selecionado
-        let currentQuizQuestions = []; 
-        let quizScore = 0; 
+        let currentQuizQuestions = [];
+        let quizScore = 0;
 
-        // Objeto que armazena o conteúdo de cada página
         const pages = {
             home: `
                 <div class="text-center">
                     <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Bem-vindo ao HackMind</h1>
                     <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Sua fonte de informação e prevenção contra crimes virtuais. Aprenda a se proteger e navegar na internet com segurança.</p>
                     <section class="mt-12 text-left">
-                    
-                            <section class="mt-12 text-left">
-                      <h2 class="text-2xl md:text-3xl font-bold text-text mb-4 text-center">A Importância da Segurança Digital</h2>
-                      <p class="text-gray-700 leading-relaxed text-center"> Segurança Digital é como um escudo que protege suas informações na internet. É importante porque todos nós queremos manter nossos dados pessoais, fotos, dados bancários e e-mails em segredo, longe dos olhos dos curiosos, certo? Existem algumas ameaças na internet, que são como vilões, tentando roubar suas informações.</p>
+                        <center> <h2 class="text-2xl md:text-3xl font-bold text-text mb-4">A Importância da Segurança Digital</h2>
+                        <p class="text-gray-700 leading-relaxed">Segurança Digital é como um escudo que protege suas informações na internet. É importante porque todos nós queremos manter nossos dados pessoais, fotos, dados bancários e e-mails em segredo, longe dos olhos dos curiosos, certo? Existem algumas ameaças na internet, que são como vilões, tentando roubar suas informações.</p>.</p> </center>
                     </section>
                 </div>
             `,
@@ -250,7 +278,6 @@
                 <div>
                     <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">O que são Crimes Virtuais?</h1>
                     <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Crimes virtuais, ou cibercrimes, são qualquer atividade criminosa que envolva um computador, rede de computadores ou um dispositivo conectado à internet.</p>
-
                     <section class="mt-8">
                         <h2 class="text-2xl font-bold text-text mb-4">Definição e Abrangência</h2>
                         <p class="text-gray-700 leading-relaxed">A categoria de crimes virtuais é vasta e inclui desde pequenos roubos de identidade até ataques massivos a infraestruturas de governos e empresas. Eles podem ser realizados por indivíduos, grupos organizados ou até mesmo nações, com diferentes motivações, como ganho financeiro, espionagem, vandalismo ou vingança.</p>
@@ -349,7 +376,30 @@
                     </div>
                 </div>
             `,
-    
+
+            recursos: `
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-6">Recursos e Ajuda</h1>
+                    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">Em caso de dúvidas ou se você foi vítima de um crime virtual, procure ajuda nos seguintes recursos.</p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Polícia Federal</h3>
+                            <p class="text-gray-700 mb-4">O órgão federal responsável por investigar crimes cibernéticos de alta complexidade.</p>
+                            <a href="https://www.gov.br/pf/pt-br" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">CERT.br</h3>
+                            <p class="text-gray-700 mb-4">Centro de Estudos, Respostas e Tratamento de Incidentes de Segurança no Brasil.</p>
+                            <a href="https://www.cert.br/" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-text mb-2">Cartilha de Segurança para Internet</h3>
+                            <p class="text-gray-700 mb-4">Guia completo para segurança online, produzido pelo CERT.br.</p>
+                            <a href="https://cartilha.cert.br/" class="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">Visitar site</a>
+                        </div>
+                    </div>
+                </div>
+            `,
             'quiz-start': `
                 <div class="text-center">
                     <h1 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">Quiz sobre Crimes Virtuais</h1>
@@ -369,11 +419,7 @@
             `
         };
 
-        // Variável global para armazenar as perguntas do nível selecionado
-        //let currentQuizQuestions = []; 
-        //let quizScore = 0; 
 
-        // Função para carregar o conteúdo da página
         function loadPage(pageName) {
             const pageContainer = document.getElementById('page-container');
             if (pages[pageName]) {
@@ -381,18 +427,15 @@
             } else {
                 pageContainer.innerHTML = `<h1 class="text-3xl font-bold text-red-500">Página não encontrada!</h1>`;
             }
-            // Rola para o topo da página após carregar o conteúdo
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Função para selecionar o nível do quiz e iniciar
         function selectQuizLevel(level) {
             currentQuizQuestions = quizQuestions.filter(q => q.level === level);
-            quizScore = 0; // Reinicia a pontuação para o novo quiz
+            quizScore = 0;
             renderQuizPage(0);
         }
 
-        // Função para renderizar uma página de pergunta do quiz
         function renderQuizPage(questionIndex) {
             if (questionIndex >= currentQuizQuestions.length) {
                 showQuizResult();
@@ -415,37 +458,66 @@
                     <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Pergunta ${questionIndex + 1} de ${currentQuizQuestions.length}</h1>
                     <p class="text-lg font-semibold text-gray-700 mb-4">Nível: ${questionData.level}</p>
                     <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">${questionData.question}</p>
+                    <div id="quiz-message" class="hidden p-4 mb-4 text-sm rounded-lg" role="alert"></div>
                     <form id="quiz-form" class="space-y-4">
                         ${optionsHtml}
                     </form>
                     <div class="flex justify-end mt-8">
-                        <button onclick="checkAnswerAndProceed(${questionIndex})" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
-                            Próxima Pergunta
+                        <button id="quiz-next-button" onclick="submitAnswer(${questionIndex})" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                            Verificar Resposta
                         </button>
                     </div>
                 </div>
             `;
         }
 
-        // Função para verificar a resposta e prosseguir para a próxima pergunta
-        function checkAnswerAndProceed(questionIndex) {
+        function submitAnswer(questionIndex) {
             const form = document.getElementById('quiz-form');
             const selectedOption = form.querySelector('input[name="quiz-option"]:checked');
+            const quizMessage = document.getElementById('quiz-message');
+            const nextButton = document.getElementById('quiz-next-button');
+            const questionData = currentQuizQuestions[questionIndex];
 
-            if (selectedOption) {
-                const selectedAnswerIndex = parseInt(selectedOption.value);
-                const questionData = currentQuizQuestions[questionIndex];
-                if (selectedAnswerIndex === questionData.correctAnswerIndex) {
-                    quizScore++;
-                }
-                renderQuizPage(questionIndex + 1);
-            } else {
-                // Alerta suave para o usuário selecionar uma opção
-                alert('Por favor, selecione uma resposta antes de continuar.');
+            // Alerta se nenhuma opção for selecionada
+            if (!selectedOption) {
+                quizMessage.textContent = 'Por favor, selecione uma resposta antes de verificar.';
+                quizMessage.classList.remove('hidden');
+                quizMessage.classList.add('bg-yellow-100', 'text-yellow-800');
+                return;
             }
+
+            // Desabilita todos os botões de rádio para impedir mudanças
+            form.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
+
+            const selectedAnswerIndex = parseInt(selectedOption.value);
+            const correctOptionLabel = document.querySelector(`label[for="option-${questionData.correctAnswerIndex}"]`);
+
+            // Destaca a resposta correta em verde
+            correctOptionLabel.classList.remove('bg-gray-50', 'hover:bg-gray-100');
+            correctOptionLabel.classList.add('bg-correct');
+
+            if (selectedAnswerIndex === questionData.correctAnswerIndex) {
+                quizScore++;
+                quizMessage.textContent = 'Resposta correta! Muito bem!';
+                quizMessage.classList.remove('hidden', 'bg-yellow-100', 'text-yellow-800');
+                quizMessage.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                // Destaca a resposta incorreta do usuário em vermelho
+                const selectedOptionLabel = document.querySelector(`label[for="option-${selectedAnswerIndex}"]`);
+                selectedOptionLabel.classList.remove('bg-gray-50', 'hover:bg-gray-100');
+                selectedOptionLabel.classList.add('bg-incorrect');
+
+                quizMessage.textContent = 'Resposta incorreta. A resposta certa está destacada em verde.';
+                quizMessage.classList.remove('hidden', 'bg-yellow-100', 'text-yellow-800');
+                quizMessage.classList.add('bg-red-100', 'text-red-800');
+            }
+
+            // Altera o botão para avançar para a próxima pergunta
+            nextButton.textContent = 'Próxima Pergunta';
+            nextButton.onclick = () => renderQuizPage(questionIndex + 1);
+            quizMessage.classList.remove('hidden');
         }
 
-        // Função para mostrar o resultado final do quiz
         function showQuizResult() {
             const pageContainer = document.getElementById('page-container');
             const resultText = quizScore === currentQuizQuestions.length ?
@@ -467,10 +539,10 @@
             `;
         }
 
-        // Carrega a página inicial ao carregar o site
         document.addEventListener('DOMContentLoaded', () => {
             loadPage('home');
         });
     </script>
 </body>
+
 </html>
